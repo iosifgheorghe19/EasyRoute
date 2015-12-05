@@ -84,7 +84,7 @@ public class StatieDB {
         return  rezInsert;
     }
 
-    Cursor getStatiiList(String[] coloane, String cond, String[] paramC){
+    Cursor getCursorStatii(String[] coloane, String cond, String[] paramC){
 
         SQLiteDatabase database = null;
         Cursor results = null;
