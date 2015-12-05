@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ class ViewHolder {
     TextView txtNumeStatie;
     TextView txtTipStatie;
     TextView txtMijloace;
+    CheckBox boxFavorit;
 }
 
 public class CustomStatieAdapter extends BaseAdapter
@@ -79,6 +81,7 @@ public class CustomStatieAdapter extends BaseAdapter
             holder.txtNumeStatie = (TextView)convertView.findViewById(R.id.textNume);
             holder.txtTipStatie = (TextView)convertView.findViewById(R.id.textTip);
             holder.txtMijloace = (TextView)convertView.findViewById(R.id.textMijloace);
+            holder.boxFavorit = (CheckBox)convertView.findViewById(R.id.favorite_button);
             convertView.setTag(holder);
         }
         else
@@ -88,61 +91,7 @@ public class CustomStatieAdapter extends BaseAdapter
         String tipStatie = listaStatii.get(position).getTipStatie().toString();
         holder.txtTipStatie.setText(tipStatie.substring(0, 1).toUpperCase() + tipStatie.substring(1));
         holder.txtMijloace.setText(TextUtils.join(", ", listaStatii.get(position).getListaMijloaceDeTransport()));
+        holder.boxFavorit.setChecked(false);
         return convertView;
     }
 }
-
-/*
-public class ListaStatii extends AppCompatActivity {
-
-    ArrayList<Statie> listaStatii;
-    ListView lv = null;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_station_list);
-        lv = (ListView)findViewById(R.id.statiiListView);
-        StatieDB db = new StatieDB(this);
-        String[] coloane = new String[]
-                {
-                        StatieDB.COL_NID,
-                        StatieDB.COL_NUME_STATIE,
-                        StatieDB.COL_LONGITUDINE,
-                        StatieDB.COL_LATITUDINE,
-                        StatieDB.COL_TIP_STATIE,
-                        StatieDB.COL_ACTIVA,
-                        StatieDB.COL_MIJLOACE_DE_TRANSPORT
-                };
-        Cursor statii = db.getCursorStatii(coloane, null, null);
-        listaStatii = new ArrayList<Statie>();
-        while (statii.moveToNext())
-        {
-            Statie s = new Statie();
-            s.setNid(statii.getInt(0));
-            s.setNumeStatie(statii.getString(1));
-            s.setLongitudine(statii.getDouble(2));
-            s.setLatitudine(statii.getDouble(3));
-            s.setTipStatie(TipTransport.valueOf(statii.getString(4)));
-            int bool = statii.getInt(5);
-            s.setActiva(bool == 1 ? true : false);
-
-            listaStatii.add(s);
-            Log.d("StatieDB", s.toString());
-        }
-        lv.setAdapter(new CustomStatieAdapter(this, listaStatii));
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object o = lv.getItemAtPosition(position);
-                Statie statie = (Statie)o;
-                Intent newActivity = new Intent(ListaStatii.this, MainActivity.class);
-                startActivityForResult(newActivity, 1);
-            }
-        });
-
-
-    }
-
-}
-*/
