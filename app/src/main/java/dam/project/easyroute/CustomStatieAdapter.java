@@ -7,6 +7,7 @@ import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,35 +25,11 @@ import java.util.ArrayList;
  * Created by duicu.bogdan on 12/5/2015.
  */
 
-class CursorResults{
+class CursorStatii{
 
     private String nid = "";
     private String numeStatie = "";
     private String tipStatie = "";
-
-    public String getRating() {
-        return numeStatie;
-    }
-
-    public void setRating(String rating) {
-        this.numeStatie = numeStatie;
-    }
-
-    public String getTitle() {
-        return nid;
-    }
-
-    public void setTitle(String title) {
-        this.nid = nid;
-    }
-
-    public String getRelease() {
-        return tipStatie;
-    }
-
-    public void setRelease(String release) {
-        this.tipStatie = tipStatie;
-    }
 
 
 }
@@ -61,9 +38,10 @@ class ViewHolder {
     TextView txtNid;
     TextView txtNumeStatie;
     TextView txtTipStatie;
+    TextView txtMijloace;
 }
 
-class CustomStatieAdapter extends BaseAdapter
+public class CustomStatieAdapter extends BaseAdapter
 {
 
     private static ArrayList<Statie> listaStatii;
@@ -95,24 +73,26 @@ class CustomStatieAdapter extends BaseAdapter
         ViewHolder holder;
         if(convertView == null)
         {
-            convertView = statieInflater.inflate(R.layout.custom_station_list,null);
+            convertView = statieInflater.inflate(R.layout.rand_statie,null);
             holder = new ViewHolder();
-            holder.txtNid = (TextView)convertView.findViewById(R.id.statieNid);
-            holder.txtNumeStatie = (TextView)convertView.findViewById(R.id.statieNumeStatie);
-            holder.txtTipStatie = (TextView)convertView.findViewById(R.id.statieTipStatie);
+            holder.txtNid = (TextView)convertView.findViewById(R.id.textNid);
+            holder.txtNumeStatie = (TextView)convertView.findViewById(R.id.textNume);
+            holder.txtTipStatie = (TextView)convertView.findViewById(R.id.textTip);
+            holder.txtMijloace = (TextView)convertView.findViewById(R.id.textMijloace);
             convertView.setTag(holder);
         }
         else
             holder = (ViewHolder)convertView.getTag();
-        holder.txtNid.setText(listaStatii.get(position).getNid());
-        String numeStatie = String.valueOf(listaStatii.get(position).getNumeStatie()).concat(" stars out of 5");
-        holder.txtNumeStatie.setText(numeStatie);
-        holder.txtTipStatie.setText(listaStatii.get(position).getTipStatie().toString());
+        holder.txtNid.setText(Integer.toString(listaStatii.get(position).getNid()));
+        holder.txtNumeStatie.setText(listaStatii.get(position).getNumeStatie());
+        String tipStatie = listaStatii.get(position).getTipStatie().toString();
+        holder.txtTipStatie.setText(tipStatie.substring(0, 1).toUpperCase() + tipStatie.substring(1));
+        holder.txtMijloace.setText(TextUtils.join(", ", listaStatii.get(position).getListaMijloaceDeTransport()));
         return convertView;
     }
 }
 
-
+/*
 public class ListaStatii extends AppCompatActivity {
 
     ArrayList<Statie> listaStatii;
@@ -164,19 +144,5 @@ public class ListaStatii extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_movie_list, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-    }
 }
+*/

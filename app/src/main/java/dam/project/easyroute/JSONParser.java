@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Theo on 04.12.2015.
@@ -46,11 +47,8 @@ public class JSONParser {
             try {
                 JSONObject obiect = new JSONObject(s);
                 JSONArray listaStatii = obiect.getJSONObject("markers").getJSONArray("markers");
-                String statii[] = new String[listaStatii.length()];
-                for (int i = 0; i < listaStatii.length(); i++)
-                    statii[i] = listaStatii.getString(i);
-                ListAdapter adaptor = new ArrayAdapter<String>(lv.getContext(), android.R.layout.simple_list_item_1, statii);
-                lv.setAdapter(adaptor);
+                ArrayList<Statie> listaParsataStatii = JSONArraytoListaStatii(listaStatii);
+                lv.setAdapter(new CustomStatieAdapter(lv.getContext(), listaParsataStatii));
                 pb.setVisibility(View.GONE);
                 lv.setVisibility(View.VISIBLE);
             } catch (JSONException e) {
@@ -77,6 +75,69 @@ public class JSONParser {
                 e.printStackTrace();
             }
             return builder.toString();
+        }
+
+
+    }
+
+    private ArrayList<Statie> JSONArraytoListaStatii(JSONArray jsonStatii)
+    {
+        try {
+            ArrayList<Statie> listaStatii = new ArrayList<Statie>();
+            for (int i = 0; i < jsonStatii.length(); i++)
+            {
+                JSONObject jsonStatie = jsonStatii.getJSONObject(i);
+                Statie statie = new Statie();
+                statie.setActiva(true);
+                String temp = jsonStatie.getString("type");
+                switch (temp) {
+                    case "bus":
+                        String body = jsonStatie.getString("body");
+                        if (body.contains("Express") && !body.contains("Autobuze"))
+                            statie.setTipStatie(TipTransport.express);
+                        else statie.setTipStatie(TipTransport.autobuz);
+                        break;
+                    case "metro":
+                        statie.setTipStatie(TipTransport.metrou);
+                        break;
+                    case "bus-trolley":
+                        statie.setTipStatie(TipTransport.troleibuz);
+                        break;
+                    case "tram":
+                        statie.setTipStatie(TipTransport.tramvai);
+                        break;
+                    default:
+                        statie.setTipStatie(TipTransport.invalid);
+                        break;
+                }
+                statie.setLatitudine(Double.valueOf(jsonStatie.getString("lat")));
+                statie.setLongitudine(Double.valueOf(jsonStatie.getString("lon")));
+                statie.setNid(Integer.valueOf(jsonStatie.getString("nid")));
+                statie.setNumeStatie(jsonStatie.getString("title"));
+                temp = jsonStatie.getString("body");
+                temp = temp.replace("\n", ", ");
+                temp = temp.replace("Autobuze:", "");
+                temp = temp.replace("Capat de linie autobuze:", "");
+                temp = temp.replace("Capat de linie tramvaie:", "");
+                temp = temp.replace("Express:", "");
+                temp = temp.replace("Express :", "");
+                temp = temp.replace("Metrouri:", "");
+                temp = temp.replace("Troleibuze:", "");
+                temp = temp.replace("Tramvai:", "");
+                temp = temp.replace("Tramvai :", "");
+                temp = temp.replace("Tramvaie:", "");
+                temp = temp.replace("Tramvaie :", "");
+                String[] splat = temp.split(", ");
+                ArrayList<String> listaMijloace = new ArrayList<String>();
+                for (int j = 0; j < splat.length; j++)
+                    listaMijloace.add(splat[j].trim());
+                statie.setListaMijloaceDeTransport(listaMijloace);
+                listaStatii.add(statie);
+            }
+            return listaStatii;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
