@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Josh on 05.12.2015.
- */
+
 public class Utile {
 
     private static String LIST_SEPARATOR = ",";
