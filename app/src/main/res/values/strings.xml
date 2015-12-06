@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">EasyRoute</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username_string">Nume utilizator</string>
+    <string name="pwd_string">Parola</string>
+    <string name="login_string">Login</string>
+    <string name="login_failed_msg">Nume utilizator sau parola incorecte!</string>
+    <string name="ok_lbl">OK</string>
 </resources>
