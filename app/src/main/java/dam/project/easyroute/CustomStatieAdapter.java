@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,10 +49,13 @@ public class CustomStatieAdapter extends BaseAdapter
 
     private static ArrayList<Statie> listaStatii;
     private LayoutInflater statieInflater;
+    Context context;
 
     public CustomStatieAdapter(Context context, ArrayList<Statie> results) {
         listaStatii = results;
+        this.context = context;
         this.statieInflater = LayoutInflater.from(context);
+
     }
 
 
@@ -71,7 +75,7 @@ public class CustomStatieAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null)
         {
@@ -91,7 +95,18 @@ public class CustomStatieAdapter extends BaseAdapter
         String tipStatie = listaStatii.get(position).getTipStatie().toString();
         holder.txtTipStatie.setText(tipStatie.substring(0, 1).toUpperCase() + tipStatie.substring(1));
         holder.txtMijloace.setText(TextUtils.join(", ", listaStatii.get(position).getListaMijloaceDeTransport()));
-        holder.boxFavorit.setChecked(false);
+        holder.boxFavorit.setChecked(listaStatii.get(position).isFavorita());
+        holder.boxFavorit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true) {
+                    StatieDB statieDB = new StatieDB(context);
+                    listaStatii.get(position).setFavorita(true);
+                    statieDB.insertRecord(listaStatii.get(position));
+                    statieDB.close();
+                }
+            }
+        });
         return convertView;
     }
 }

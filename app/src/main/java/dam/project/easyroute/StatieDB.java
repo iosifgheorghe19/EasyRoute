@@ -8,17 +8,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 class AccessDB extends SQLiteOpenHelper{
 
     public static String TABLE_STATII_FAVORITE = "statii_favorite";
     public static String DATABASE = "statii.db";
     public static String CREATE_TABLE_STATII_FAVORITE = "CREATE TABLE " + TABLE_STATII_FAVORITE +
             "(nid INTEGER PRIMARY KEY, "+
-            "nume_statie TEXT" +
-            "longitudine REAL" +
-            "latitudine REAL" +
-            "tipStatie INTEGER" +
-            "activa INTEGER" +
+            "nume_statie TEXT," +
+            "longitudine REAL," +
+            "latitudine REAL," +
+            "tipStatie INTEGER," +
+            "activa INTEGER," +
             "mijloace_de_transport TEXT)";
 
     public AccessDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -71,7 +73,7 @@ public class StatieDB {
             valoriCont.put(COL_LATITUDINE, statie.getLatitudine());
                 int tipStatieInt = statie.getTipStatie().ordinal();
             valoriCont.put(COL_TIP_STATIE, tipStatieInt);
-            valoriCont.put(COL_ACTIVA, (statie.isActiva())?1:0 );
+            valoriCont.put(COL_ACTIVA, ( (statie.isActiva()?1:0) ));
             valoriCont.put(COL_MIJLOACE_DE_TRANSPORT, Utile.convertArrayListToString(statie.getListaMijloaceDeTransport()));
 
             rezInsert = database.insert(AccessDB.TABLE_STATII_FAVORITE, null, valoriCont);
@@ -97,4 +99,6 @@ public class StatieDB {
         }
         return results;
     }
+
+
 }

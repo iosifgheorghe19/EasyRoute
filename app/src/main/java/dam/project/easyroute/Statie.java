@@ -11,10 +11,21 @@ public class Statie {
     private TipTransport tipStatie;
     private boolean activa;
     private ArrayList<String> listaMijloaceDeTransport;
+    private boolean favorita;
 
     public Statie() {
+        favorita = false;
     }
     public Statie(boolean activa, TipTransport tipStatie, int nid, double longitudine, double latitudine, String numeStatie, ArrayList<String> listaMijloaceDeTransport) {
+        this.activa = activa;
+        this.tipStatie = tipStatie;
+        this.nid = nid;
+        this.longitudine = longitudine;
+        this.latitudine = latitudine;
+        this.numeStatie = numeStatie;
+        this.listaMijloaceDeTransport = listaMijloaceDeTransport;
+    }
+    public Statie(boolean activa, TipTransport tipStatie, int nid, double longitudine, double latitudine, String numeStatie, ArrayList<String> listaMijloaceDeTransport, boolean favorita) {
         this.activa = activa;
         this.tipStatie = tipStatie;
         this.nid = nid;
@@ -68,6 +79,10 @@ public class Statie {
     public void setListaMijloaceDeTransport(ArrayList<String> listaMijloaceDeTransport) {
         this.listaMijloaceDeTransport = listaMijloaceDeTransport;
     }
-
-
+    public boolean isFavorita() {
+        return favorita;
+    }
+    public void setFavorita(boolean favorita) {
+        this.favorita = favorita;
+    }
 }

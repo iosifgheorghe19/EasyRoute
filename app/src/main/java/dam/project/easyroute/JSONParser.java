@@ -18,10 +18,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
-/**
- * Created by Theo on 04.12.2015.
- */
+
 public class JSONParser {
 
     public void incepeParsareJSON(ListView lv, ProgressBar pb)
@@ -44,13 +44,24 @@ public class JSONParser {
             try {
                 JSONObject obiect = new JSONObject(s);
                 JSONArray listaStatii = obiect.getJSONObject("markers").getJSONArray("markers");
-                ArrayList<Statie> listaParsataStatii = JSONArraytoListaStatii(listaStatii);
-                lv.setAdapter(new CustomStatieAdapter(lv.getContext(), listaParsataStatii));
+                TreeMap<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaStatii);
+                bifeazaStatiiFavorite(mapParsatStatii);
+
+                  //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
+                ArrayList<Statie> listaParsataStatii = new ArrayList<Statie>(mapParsatStatii.values());
+                CustomStatieAdapter customStatieAdapter = new CustomStatieAdapter(lv.getContext(), listaParsataStatii);
+                lv.setAdapter(customStatieAdapter);
                 pb.setVisibility(View.GONE);
                 lv.setVisibility(View.VISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        void bifeazaStatiiFavorite(TreeMap<Integer, Statie> mapStatii){
+          for(Integer nid : MainActivity.listaNIDuriStatiiFavorite){
+              mapStatii.get(nid).setFavorita(true);
+          }
         }
 
         private String descarcareJSONStatii() {
@@ -77,10 +88,11 @@ public class JSONParser {
 
     }
 
-    private ArrayList<Statie> JSONArraytoListaStatii(JSONArray jsonStatii)
+
+    private TreeMap<Integer, Statie> JSONArraytoListaStatii(JSONArray jsonStatii)
     {
         try {
-            ArrayList<Statie> listaStatii = new ArrayList<Statie>();
+            TreeMap<Integer, Statie> listaStatii = new TreeMap<Integer, Statie>();
             for (int i = 0; i < jsonStatii.length(); i++)
             {
                 JSONObject jsonStatie = jsonStatii.getJSONObject(i);
@@ -129,7 +141,7 @@ public class JSONParser {
                 for (int j = 0; j < splat.length; j++)
                     listaMijloace.add(splat[j].trim());
                 statie.setListaMijloaceDeTransport(listaMijloace);
-                listaStatii.add(statie);
+                listaStatii.put(statie.getNid(), statie);
             }
             return listaStatii;
         } catch (JSONException e) {
