@@ -38,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JSONParser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JSONParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/JSONParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36773428">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state vertical-scroll-proportion="-5.803571">
+              <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1710#1718#0" expanded="true" />
@@ -87,17 +87,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomStatieAdapter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomStatieAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/CustomStatieAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-30.51724">
-              <caret line="93" column="42" selection-start-line="93" selection-start-column="42" selection-end-line="93" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.68014705">
+              <caret line="98" column="80" selection-start-line="98" selection-start-column="80" selection-end-line="98" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1466#1467#0" expanded="true" />
                 <element signature="e#1507#1508#0" expanded="true" />
-                <element signature="e#3090#3566#0" expanded="true" />
-                <element signature="e#3565#3566#0" expanded="true" />
+                <element signature="e#3598#3599#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1666,12 +1665,12 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/Utile.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/Statie.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/JSONParser.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/rand_statie.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/StatieDB.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/CustomStatieAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/JSONParser.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/CustomStatieAdapter.java" />
       </list>
     </option>
   </component>
@@ -2274,28 +2273,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/CustomStatieAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-30.51724">
-          <caret line="93" column="42" selection-start-line="93" selection-start-column="42" selection-end-line="93" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1466#1467#0" expanded="true" />
-            <element signature="e#1507#1508#0" expanded="true" />
-            <element signature="e#3090#3566#0" expanded="true" />
-            <element signature="e#3565#3566#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/JSONParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36773428">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state vertical-scroll-proportion="-5.803571">
+          <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1710#1718#0" expanded="true" />
             <element signature="e#3450#3467#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/dam/project/easyroute/CustomStatieAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.68014705">
+          <caret line="98" column="80" selection-start-line="98" selection-start-column="80" selection-end-line="98" selection-end-column="80" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1466#1467#0" expanded="true" />
+            <element signature="e#1507#1508#0" expanded="true" />
+            <element signature="e#3598#3599#0" expanded="true" />
           </folding>
         </state>
       </provider>

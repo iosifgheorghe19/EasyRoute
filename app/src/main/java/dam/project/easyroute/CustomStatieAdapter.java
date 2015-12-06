@@ -95,7 +95,7 @@ public class CustomStatieAdapter extends BaseAdapter
         String tipStatie = listaStatii.get(position).getTipStatie().toString();
         holder.txtTipStatie.setText(tipStatie.substring(0, 1).toUpperCase() + tipStatie.substring(1));
         holder.txtMijloace.setText(TextUtils.join(", ", listaStatii.get(position).getListaMijloaceDeTransport()));
-        holder.boxFavorit.setChecked(false);
+        holder.boxFavorit.setChecked(listaStatii.get(position).isFavorita());
         holder.boxFavorit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
