@@ -1,11 +1,8 @@
 package dam.project.easyroute;
 
-import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -69,7 +66,7 @@ public class JSONParser {
                         builder.append(line);
                     }
                 } else {
-                    Log.e("JSONParser", "Nu s-a putut descarca fisierul");
+                    Log.e("JSONParser", "Nu s-a putut descarca fisierul JSON");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

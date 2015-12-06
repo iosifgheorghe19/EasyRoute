@@ -37,7 +37,7 @@ public class LoginFragment extends Fragment {
                     if (mListener != null)
                         mListener.onFragmentInteraction(null);
                 }
-                else new AlertDialog.Builder(getActivity()).setMessage(R.string.login_failed_msg).setNeutralButton(R.string.ok_lbl, null).create().show();
+                else new AlertDialog.Builder(getActivity()).setMessage(R.string.login_failed_msg).setPositiveButton(R.string.ok_lbl, null).create().show();
             }
         });
         return thisView;
