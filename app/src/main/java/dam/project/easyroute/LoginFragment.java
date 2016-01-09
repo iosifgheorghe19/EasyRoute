@@ -32,7 +32,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 EditText usrText = (EditText)thisView.findViewById(R.id.usernameText);
                 EditText pwdText = (EditText)thisView.findViewById(R.id.pwdText);
-                if (usrText.getText().toString().equals("test123") && pwdText.getText().toString().equals("dam-adepica"))
+                if (usrText.getText().toString().equals("") && pwdText.getText().toString().equals(""))
                 {
                     if (mListener != null)
                         mListener.onFragmentInteraction(null);

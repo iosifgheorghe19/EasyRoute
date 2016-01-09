@@ -9,4 +9,5 @@
     <string name="login_failed_msg">Nume utilizator sau parola incorecte!</string>
     <string name="ok_lbl">OK</string>
     <string name="register_activity_string">Inregistrare cont</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
