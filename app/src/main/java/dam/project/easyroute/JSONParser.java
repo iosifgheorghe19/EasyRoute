@@ -7,7 +7,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -24,6 +27,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+
+import static dam.project.easyroute.TipTransport.*;
 
 
 public class JSONParser {
@@ -48,14 +53,30 @@ public class JSONParser {
                 JSONObject obiect = new JSONObject(s);
                 JSONArray listaTemp = obiect.getJSONObject("markers").getJSONArray("markers");
                 TreeMap<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaTemp);
-                bifeazaStatiiFavorite(mapParsatStatii);
+              //  bifeazaStatiiFavorite(mapParsatStatii);
 
 
                 listaStatii = new ArrayList<Statie>(mapParsatStatii.values());
                 for (Statie statie : listaStatii)
                 {
-                    gm.addMarker(new MarkerOptions().position(new LatLng(statie.getLatitudine(), statie.getLongitudine())).title(statie.getNumeStatie()));
+                    int iconStatie;
+                    switch (statie.getTipStatie()){
+                        case autobuz: iconStatie = R.drawable.ic_bus1; break;
+                        case troleibuz: iconStatie = R.drawable.ic_trolley; break;
+                        case metrou: iconStatie = R.drawable.ic_subway; break;
+                        case tramvai:  iconStatie = R.drawable.ic_railway; break;
+                        default: iconStatie = R.drawable.ic_bus1; break;
+                    }
+
+                    Marker marker = gm.addMarker(new MarkerOptions().position(new LatLng(statie.getLatitudine(), statie.getLongitudine()))
+                                .title(statie.getNumeStatie())
+                                .snippet(statie.getTipStatie().toString() + ": " + Utile.convertArrayListToString(statie.getListaMijloaceDeTransport()))
+                                .icon(BitmapDescriptorFactory.fromResource(iconStatie))
+                         );
+
+                    MapsActivity.treeMapMarkere.put(statie.getNid(),marker);
                 }
+
                 //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
 /*                CustomStatieAdapter customStatieAdapter = new CustomStatieAdapter(lv.getContext(), listaParsataStatii);
                 lv.setAdapter(customStatieAdapter);
@@ -111,20 +132,20 @@ public class JSONParser {
                     case "bus":
                         String body = jsonStatie.getString("body");
                         if (body.contains("Express") && !body.contains("Autobuze"))
-                            statie.setTipStatie(TipTransport.express);
-                        else statie.setTipStatie(TipTransport.autobuz);
+                            statie.setTipStatie(express);
+                        else statie.setTipStatie(autobuz);
                         break;
                     case "metro":
-                        statie.setTipStatie(TipTransport.metrou);
+                        statie.setTipStatie(metrou);
                         break;
                     case "bus-trolley":
-                        statie.setTipStatie(TipTransport.troleibuz);
+                        statie.setTipStatie(troleibuz);
                         break;
                     case "tram":
-                        statie.setTipStatie(TipTransport.tramvai);
+                        statie.setTipStatie(tramvai);
                         break;
                     default:
-                        statie.setTipStatie(TipTransport.invalid);
+                        statie.setTipStatie(invalid);
                         break;
                 }
                 statie.setLatitudine(Double.valueOf(jsonStatie.getString("lat")));

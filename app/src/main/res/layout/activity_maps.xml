@@ -12,13 +12,32 @@
 
 
         <SearchView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/mapSearchView1"
-            android:iconifiedByDefault="false" />
+            android:iconifiedByDefault="true"
+            android:layout_gravity="right" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/autobuzeLayout"
+                android:dividerPadding="10dp"
+                android:gravity="center_vertical">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
     </LinearLayout>
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
@@ -26,5 +45,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="dam.project.easyroute.MapsActivity" />
+
+    <!--   <HorizontalScrollView
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:id="@+id/horizontalScrollViewMap"
+           android:layout_gravity="bottom"
+           android:minHeight="100dp">  -->
+
 
 </LinearLayout>
