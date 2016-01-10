@@ -86,10 +86,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void searchOnMap(String query){
 
 
+
         List<Address> addressList = null;
 
         if(query!= null && !query.equals("")){
             Geocoder geocoder = new Geocoder(this);
+            try {
+
+                for( Marker m : treeMapMarkere.values()){
+                    if(m.getSnippet().contains(query) || m.getTitle().contains(query))
+                        m.setVisible(true);
+                    else
+                        m.setVisible(false);
+                }
+            }
+            catch (Exception ex){
+                Log.d("statii", ex.getMessage());
+            }
             try {
                  addressList = geocoder.getFromLocationName(query,1);
 
@@ -108,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        try {
 
            for( Marker m : treeMapMarkere.values()){
-               if(m.getSnippet().contains(query))
+               if(m.getSnippet().contains(query) || m.getTitle().contains(query))
                    m.setVisible(true);
                else
                    m.setVisible(false);
