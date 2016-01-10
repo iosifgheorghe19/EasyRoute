@@ -17,7 +17,7 @@ class AccessUserDB extends SQLiteOpenHelper {
     public static String DATABASE = "users.db";
     public static String CREATE_TABLE_USERS = "CREATE TABLE " + TABLE_USERS +
             "(uid INTEGER PRIMARY KEY AUTOINCREMENT, "+
-            "userName TEXT" +
+            "userName TEXT, " +
             "userPassword TEXT)";
 
     public AccessUserDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -59,7 +59,7 @@ public class UserDB {
         ContentValues valoriCont = new ContentValues();
         try{
             database = referenceDB.getWritableDatabase();
-            valoriCont.put(COL_UID, user.getUid());
+            //valoriCont.put(COL_UID, user.getUid());
             valoriCont.put(COL_USERNAME, user.getUserName());
             valoriCont.put(COL_USERPASSWORD, user.getUserPassword());
 

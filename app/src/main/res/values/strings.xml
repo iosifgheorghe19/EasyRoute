@@ -10,4 +10,6 @@
     <string name="ok_lbl">OK</string>
     <string name="register_activity_string">Inregistrare cont</string>
     <string name="title_activity_maps">Map</string>
+    <string name="usr_registered_string">Utilizator nou creat!</string>
+    <string name="pwds_not_same_string">Parolele nu sunt la fel!</string>
 </resources>
