@@ -3,6 +3,7 @@ package dam.project.easyroute;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,12 +33,25 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 EditText usrText = (EditText)thisView.findViewById(R.id.usernameText);
                 EditText pwdText = (EditText)thisView.findViewById(R.id.pwdText);
-                if (usrText.getText().toString().equals("") && pwdText.getText().toString().equals(""))
+                Boolean isCorrectCombination = false;
+                UserDB db = new UserDB(getActivity());
+                Cursor userCursor = db.getCursorUsers(new String[]{UserDB.COL_USERNAME, UserDB.COL_USERPASSWORD}, null, null);
+                String userName = usrText.getText().toString();
+                String passwd = pwdText.getText().toString();
+                while (userCursor.moveToNext())
                 {
-                    if (mListener != null)
-                        mListener.onFragmentInteraction("login");
+                    if (userName.equals(userCursor.getString(0)))
+                    {
+                        if (passwd.equals(userCursor.getString(1)))
+                        {
+                            isCorrectCombination = true;
+                            if (mListener != null)
+                                mListener.onFragmentInteraction("login");
+                        }
+                    }
                 }
-                else new AlertDialog.Builder(getActivity()).setMessage(R.string.login_failed_msg).setPositiveButton(R.string.ok_lbl, null).create().show();
+                if (!isCorrectCombination)
+                    new AlertDialog.Builder(getActivity()).setMessage(R.string.login_failed_msg).setPositiveButton(R.string.ok_lbl, null).create().show();
             }
         });
         Button b2 = (Button) thisView.findViewById(R.id.register_button);
