@@ -16,8 +16,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        startActivity(new Intent(this, MapsActivity.class));
+    public void onFragmentInteraction(String path) {
+        if (path.equals("login"))
+            startActivity(new Intent(this, MapsActivity.class));
+        else if (path.equals("register"))
+            startActivity(new Intent(this, RegisterActivity.class));
     }
 
 }

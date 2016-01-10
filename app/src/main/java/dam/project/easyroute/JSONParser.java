@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,35 +28,39 @@ import java.util.TreeMap;
 
 public class JSONParser {
 
-    public void incepeParsareJSON(ListView lv, ProgressBar pb)
+    public static ArrayList<Statie> listaStatii = new ArrayList<>();
+    public void incepeParsareJSON(GoogleMap gm)
     {
-        new descarcareJSONTask().execute(lv, pb);
+        new descarcareJSONTask().execute(gm);
     }
-    private class descarcareJSONTask extends AsyncTask<View, Void, String>   /// AsyncTask lifecycle
+    private class descarcareJSONTask extends AsyncTask<Object, Void, String>
     {
-        private ListView lv;
-        private ProgressBar pb;
+        private GoogleMap gm;
         @Override
-        protected String doInBackground(View... views) { /// descarcareJSONTask.doInBackground
-            lv = (ListView)views[0];
-            pb = (ProgressBar)views[1];
+        protected String doInBackground(Object... objects) {
+            gm = (GoogleMap)objects[0];
             return descarcareJSONStatii();
         }
 
         @Override
-        protected void onPostExecute(String s) {     /// descarcareJSONTask.onPostExecute
+        protected void onPostExecute(String s) {
             try {
                 JSONObject obiect = new JSONObject(s);
-                JSONArray listaStatii = obiect.getJSONObject("markers").getJSONArray("markers");
-                TreeMap<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaStatii);
+                JSONArray listaTemp = obiect.getJSONObject("markers").getJSONArray("markers");
+                TreeMap<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaTemp);
                 bifeazaStatiiFavorite(mapParsatStatii);
 
-                  //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
-                ArrayList<Statie> listaParsataStatii = new ArrayList<Statie>(mapParsatStatii.values());
-                CustomStatieAdapter customStatieAdapter = new CustomStatieAdapter(lv.getContext(), listaParsataStatii);
+
+                listaStatii = new ArrayList<Statie>(mapParsatStatii.values());
+                for (Statie statie : listaStatii)
+                {
+                    gm.addMarker(new MarkerOptions().position(new LatLng(statie.getLatitudine(), statie.getLongitudine())).title(statie.getNumeStatie()));
+                }
+                //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
+/*                CustomStatieAdapter customStatieAdapter = new CustomStatieAdapter(lv.getContext(), listaParsataStatii);
                 lv.setAdapter(customStatieAdapter);
                 pb.setVisibility(View.GONE);
-                lv.setVisibility(View.VISIBLE);
+                lv.setVisibility(View.VISIBLE);*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
