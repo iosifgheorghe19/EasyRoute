@@ -34,15 +34,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleMap mMap;
+    protected static GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     public static TreeMap <Integer, Marker> treeMapMarkere = new TreeMap<Integer, Marker>();
+    public static boolean hartaGata = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +151,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnected(Bundle connectionHint) {
+
+
        //retinem locatia curenta:
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
@@ -157,11 +162,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
        //     mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bus1)).position(latlongCurrent).flat(true).title("Bucharest").snippet("aici sunt eu"));
             mMap.setMyLocationEnabled(true);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent, 14));  // 0 = 0 zoom in.
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent, 14));  // 0 = 0 zoom in. 14
 
-
-            JSONParser parser = new JSONParser();
-            parser.incepeParsareJSON(mMap);
         }
     }
 
@@ -188,21 +190,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         mMap.getUiSettings().isMapToolbarEnabled();
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                LinearLayout linearLayoutAutobuze = (LinearLayout)findViewById(R.id.autobuzeLayout);
-                if(linearLayoutAutobuze.getChildCount() > 0)
+                LinearLayout linearLayoutAutobuze = (LinearLayout) findViewById(R.id.autobuzeLayout);
+                if (linearLayoutAutobuze.getChildCount() > 0)
                     linearLayoutAutobuze.removeAllViews();
-             //   linearLayoutAutobuze.setMinimumHeight(100);
+                //   linearLayoutAutobuze.setMinimumHeight(100);
 
-                SearchView searchView = (SearchView)findViewById(R.id.mapSearchView1);
+                SearchView searchView = (SearchView) findViewById(R.id.mapSearchView1);
                 searchView.setIconified(true);
 
-                String autobuze = marker.getSnippet().substring(marker.getSnippet().lastIndexOf(":")+1);
+                String autobuze = marker.getSnippet().substring(marker.getSnippet().lastIndexOf(":") + 1);
                 ArrayList<String> listaAutobuze = Utile.convertStringToArrayList(autobuze);
-                for( String s : listaAutobuze){
+                for (String s : listaAutobuze) {
                     TextView tv = new TextView(getApplicationContext());
                     tv.setTextSize(16);
                     tv.setTextColor(Color.BLACK);
@@ -214,12 +217,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            TextView t = (TextView)v;
-                            int childcount = ((LinearLayout)t.getParent()).getChildCount();
-                            for (int i=0; i < childcount; i++){
-                                View v1 = ((LinearLayout)t.getParent()).getChildAt(i);
-                                ((TextView)v1).setTextColor(Color.BLACK);
-                                ((TextView)v1).setTypeface(null, Typeface.NORMAL);
+                            TextView t = (TextView) v;
+                            int childcount = ((LinearLayout) t.getParent()).getChildCount();
+                            for (int i = 0; i < childcount; i++) {
+                                View v1 = ((LinearLayout) t.getParent()).getChildAt(i);
+                                ((TextView) v1).setTextColor(Color.BLACK);
+                                ((TextView) v1).setTypeface(null, Typeface.NORMAL);
                             }
                             t.setTextColor(Color.RED);
                             t.setTypeface(null, Typeface.BOLD);
@@ -242,6 +245,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 searchStatii("");
             }
         });
+
+        hartaGata = true;
+
 
         // Add a marker in Bucharest and move the camera
 //        LatLng bucharest = new LatLng(44.4268, 26.1025);

@@ -45,19 +45,19 @@ import static dam.project.easyroute.TipTransport.*;
 public class JSONParser {
 
     public static ArrayList<Statie> listaStatii = new ArrayList<>();
-    public void incepeParsareJSON(GoogleMap gm)
+    public void incepeParsareJSON()
     {
-        new descarcareJSONTask().execute(gm);
+       new descarcareJSONTask().execute();                   //new descarcareJSONTask().execute(gm);
     }
 
-    private class descarcareJSONTask extends AsyncTask<Object, Statie, Void>
+    private class descarcareJSONTask extends AsyncTask<Void, Statie, Void>
     {
         long startTime;
 
-        private GoogleMap gm;
+        //private GoogleMap gm;
         @Override
-        protected Void doInBackground(Object... objects) {  //only method that runs in background
-            gm = (GoogleMap)objects[0];
+        protected Void doInBackground(Void... objects) {  //only method that runs in background
+           // gm = (GoogleMap)objects[0];   // gm e copia hartii cum e ea prima data, inainte sa fie gata :))
 
             //debug
             startTime = System.currentTimeMillis();
@@ -70,7 +70,7 @@ public class JSONParser {
         @Override
         protected void onPostExecute(Void aVoid) {
             long estimatedTime = System.currentTimeMillis() - startTime;  //estimated time in milliseconds
-            Log.d("timer-finish", String.valueOf(estimatedTime)+" ms");
+            Log.d("timer-finish", String.valueOf(estimatedTime) + " ms");
         }
 
         @Override
@@ -85,44 +85,61 @@ public class JSONParser {
                 default: iconStatie = R.drawable.ic_bus1; break;
             }
 
-            Marker marker = gm.addMarker(new MarkerOptions().position(new LatLng(statie.getLatitudine(), statie.getLongitudine()))
+            Marker marker = MapsActivity.mMap.addMarker(new MarkerOptions().position(new LatLng(statie.getLatitudine(), statie.getLongitudine()))
                             .title(statie.getNumeStatie())
                             .snippet(statie.getTipStatie().toString() + ": " + Utile.convertArrayListToString(statie.getListaMijloaceDeTransport()))
                             .icon(BitmapDescriptorFactory.fromResource(iconStatie))
             );
 
-            MapsActivity.treeMapMarkere.put(statie.getNid(),marker);
+            MapsActivity.treeMapMarkere.put(statie.getNid(), marker);
         }
 
-        private void parseazaStatiisiAdaugaMarkere(String s){
-            try {
-                //debug
-                long startTimeparSiMarkere= System.currentTimeMillis();
+        private void parseazaStatiisiAdaugaMarkere(final String s){
 
 
-                JSONObject obiect = new JSONObject(s);
-                JSONArray listaTemp = obiect.getJSONObject("markers").getJSONArray("markers");
-                Map<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaTemp);
-                //  bifeazaStatiiFavorite(mapParsatStatii);
+                Thread t = new Thread( new Runnable() {
+                    @Override
+                    public void run() {
+                        //debug
+                        long startTimeparSiMarkere= System.currentTimeMillis();
 
+                        try {
 
-                listaStatii = new ArrayList<Statie>(mapParsatStatii.values());
-                for (Statie statie : listaStatii)
-                {
-                    publishProgress(statie);
-                }
+                        JSONObject obiect = new JSONObject(s);
+                        JSONArray listaTemp = obiect.getJSONObject("markers").getJSONArray("markers");
+                        Map<Integer, Statie> mapParsatStatii = JSONArraytoListaStatii(listaTemp);
+                        //  bifeazaStatiiFavorite(mapParsatStatii);
+                        listaStatii = new ArrayList<Statie>(mapParsatStatii.values());
 
-                long startTimestartTimeparSiMarkererefin = System.currentTimeMillis() - startTimeparSiMarkere;
-                Log.d("timer-parSiMarkere", String.valueOf(startTimestartTimeparSiMarkererefin)+ " finissh ");
+                        while(!MapsActivity.hartaGata){
+                            try {
+                                Thread.sleep(10);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                          //  try { Thread.sleep(250);  } catch (InterruptedException e) {  e.printStackTrace();  }
 
-                //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
+                            for (Statie statie : listaStatii)
+                        {
+                            publishProgress(statie);
+                        }
+
+                        long startTimestartTimeparSiMarkererefin = System.currentTimeMillis() - startTimeparSiMarkere;
+                        Log.d("timer-parSiMarkere", String.valueOf(startTimestartTimeparSiMarkererefin)+ " finissh ");
+
+                        //TODO: modificat in Adaptor sa primeasca parametru TreeMap, daca merge
 /*                CustomStatieAdapter customStatieAdapter = new CustomStatieAdapter(lv.getContext(), listaParsataStatii);
                 lv.setAdapter(customStatieAdapter);
                 pb.setVisibility(View.GONE);
                 lv.setVisibility(View.VISIBLE);*/
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    }
+                });
+            t.start();
+
 
 
         }
