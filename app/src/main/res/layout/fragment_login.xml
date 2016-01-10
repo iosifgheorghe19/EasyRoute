@@ -49,4 +49,10 @@
         android:text="@string/login_string"
         android:layout_marginTop="100dp"
         android:id="@+id/login_button"/>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/register_activity_string"
+        android:layout_marginTop="160dp"
+        android:id="@+id/register_button"/>
 </FrameLayout>

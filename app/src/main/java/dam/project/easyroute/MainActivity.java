@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
        // listaStatiiFavorite = getStatiiFavoriteList();
         listaNIDuriStatiiFavorite = getNIDuriStatiiFavorite();
 
-        JSONParser parser = new JSONParser();
-        parser.incepeParsareJSON(lv, pb);
+/*        JSONParser parser = new JSONParser();
+        parser.incepeParsareJSON(lv, pb);*/
     }
 
     ArrayList<Integer> getNIDuriStatiiFavorite(){

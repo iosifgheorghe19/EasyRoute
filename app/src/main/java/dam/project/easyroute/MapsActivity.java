@@ -102,6 +102,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bus1)).position(latlongCurrent).flat(true).title("Bucharest"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent,12));
+            JSONParser parser = new JSONParser();
+        parser.incepeParsareJSON(mMap);
         }
     }
 

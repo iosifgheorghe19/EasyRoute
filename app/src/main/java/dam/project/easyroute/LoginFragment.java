@@ -35,9 +35,16 @@ public class LoginFragment extends Fragment {
                 if (usrText.getText().toString().equals("") && pwdText.getText().toString().equals(""))
                 {
                     if (mListener != null)
-                        mListener.onFragmentInteraction(null);
+                        mListener.onFragmentInteraction("login");
                 }
                 else new AlertDialog.Builder(getActivity()).setMessage(R.string.login_failed_msg).setPositiveButton(R.string.ok_lbl, null).create().show();
+            }
+        });
+        Button b2 = (Button) thisView.findViewById(R.id.register_button);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFragmentInteraction("register");
             }
         });
         return thisView;
@@ -62,6 +69,6 @@ public class LoginFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String path);
     }
 }
