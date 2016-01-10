@@ -28,19 +28,19 @@ public class JSONParser {
     {
         new descarcareJSONTask().execute(lv, pb);
     }
-    private class descarcareJSONTask extends AsyncTask<View, Void, String>
+    private class descarcareJSONTask extends AsyncTask<View, Void, String>   /// AsyncTask lifecycle
     {
         private ListView lv;
         private ProgressBar pb;
         @Override
-        protected String doInBackground(View... views) {
+        protected String doInBackground(View... views) { /// descarcareJSONTask.doInBackground
             lv = (ListView)views[0];
             pb = (ProgressBar)views[1];
             return descarcareJSONStatii();
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s) {     /// descarcareJSONTask.onPostExecute
             try {
                 JSONObject obiect = new JSONObject(s);
                 JSONArray listaStatii = obiect.getJSONObject("markers").getJSONArray("markers");

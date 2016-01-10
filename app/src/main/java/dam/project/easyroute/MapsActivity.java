@@ -100,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng latlongCurrent = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
 
-            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bus1)).position(latlongCurrent).flat(true).title("Bucharest"));
+            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bus1)).position(latlongCurrent).flat(true).title("Bucharest").snippet("aici sunt eu"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent,12));
         }
     }
