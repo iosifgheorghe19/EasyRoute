@@ -21,8 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ListView lv = (ListView)findViewById(R.id.statiiListView);
         ProgressBar pb = (ProgressBar)findViewById(R.id.progressBar);
-       // listaStatiiFavorite = getStatiiFavoriteList();
+        listaStatiiFavorite = getStatiiFavoriteList();
         listaNIDuriStatiiFavorite = getNIDuriStatiiFavorite();
+        CustomStatieAdapter adaptor = new CustomStatieAdapter(this, JSONParser.listaStatii);
+        lv.setAdapter(adaptor);
+        pb.setVisibility(View.GONE);
+        lv.setVisibility(View.VISIBLE);
 
 /*        JSONParser parser = new JSONParser();
         parser.incepeParsareJSON(lv, pb);*/

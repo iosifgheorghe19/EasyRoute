@@ -1,14 +1,16 @@
-<LinearLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/searchLayout">
 
 
         <SearchView
@@ -39,12 +41,12 @@
     </LinearLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout"
     tools:context="dam.project.easyroute.MapsActivity" />
 
     <!--   <HorizontalScrollView
@@ -53,6 +55,24 @@
            android:id="@+id/horizontalScrollViewMap"
            android:layout_gravity="bottom"
            android:minHeight="100dp">  -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+
+        <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favoritesFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/star"
+        android:layout_alignParentRight="true"
+        app:elevation="6dp"
+        />
+    </LinearLayout>
 
 
-</LinearLayout>
+
+</RelativeLayout>
