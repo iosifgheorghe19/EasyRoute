@@ -36,15 +36,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-    private GoogleMap mMap;
+    protected static GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     public static TreeMap <Integer, Marker> treeMapMarkere = new TreeMap<Integer, Marker>();
+    public static boolean hartaGata = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +92,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void searchOnMap(String query){
 
 
+
         List<Address> addressList = null;
 
         if(query!= null && !query.equals("")){
             Geocoder geocoder = new Geocoder(this);
+            try {
+
+                for( Marker m : treeMapMarkere.values()){
+                    if(m.getSnippet().contains(query) || m.getTitle().contains(query))
+                        m.setVisible(true);
+                    else
+                        m.setVisible(false);
+                }
+            }
+            catch (Exception ex){
+                Log.d("statii", ex.getMessage());
+            }
             try {
                  addressList = geocoder.getFromLocationName(query,1);
 
@@ -111,7 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        try {
 
            for( Marker m : treeMapMarkere.values()){
-               if(m.getSnippet().contains(query))
+               if(m.getSnippet().contains(query) || m.getTitle().contains(query))
                    m.setVisible(true);
                else
                    m.setVisible(false);
@@ -138,6 +154,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnected(Bundle connectionHint) {
+
+
        //retinem locatia curenta:
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
@@ -148,6 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        //     mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_bus1)).position(latlongCurrent).flat(true).title("Bucharest").snippet("aici sunt eu"));
             mMap.setMyLocationEnabled(true);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent, 14));  // 0 = 0 zoom in.
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlongCurrent, 14));  // 0 = 0 zoom in. 1
         }
     }
 
@@ -174,6 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         mMap.getUiSettings().isMapToolbarEnabled();
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -230,7 +250,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         JSONParser parser = new JSONParser();
-        parser.incepeParsareJSON(mMap);
+        parser.incepeParsareJSON();
+        hartaGata = true;
         // Add a marker in Bucharest and move the camera
 //        LatLng bucharest = new LatLng(44.4268, 26.1025);
 //        mMap.addMarker(new MarkerOptions().position(bucharest).title("Bucharest"));

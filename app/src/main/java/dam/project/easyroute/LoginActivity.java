@@ -13,6 +13,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().setTitle(R.string.login_string);
+        JSONParser parser = new JSONParser();
+        parser.incepeParsareJSON();
     }
 
     @Override
